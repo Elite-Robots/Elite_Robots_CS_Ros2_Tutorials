@@ -1,5 +1,3 @@
-[English tutorials](./ELITE Robots ROS tutorials.md)
-
 # ELITE Robots ROS2 教程
 
 这些教程应该能帮助用户运行他们的自定义用例。以下内容参考UR机器人 ROS2 教程以及 MoveIt2 教程，感谢开发者们对开源世界的贡献。

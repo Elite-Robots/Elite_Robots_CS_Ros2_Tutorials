@@ -21,7 +21,7 @@
    cd $COLCON_WS
    git clone https://github.com/Elite-Robots/Elite_Robots_CS_Ros2_Tutorials.git src/elite_tutorials
    rosdep update && rosdep install --ignore-src --from-paths src -y
-```
+   ```
    
 3. 创建一个 colcon 工作空间:
    ```bash
@@ -40,3 +40,5 @@
    ```bash
    ros2 launch my_elite_robot_cell_control start_robot.launch.py use_fake_hardware:=true
    ```
+
+6. 你可以使用 [Elite Robots ROS2 教程](./tutorials/Elite Robots ROS2 教程.md) 以获得更多有用的信息。

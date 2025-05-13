@@ -21,7 +21,7 @@ With that, please create a workspace, copy this folder into the workspace, insta
    cd $COLCON_WS
    git clone https://github.com/Elite-Robots/Elite_Robots_CS_Ros2_Tutorials.git src/elite_tutorials
    rosdep update && rosdep install --ignore-src --from-paths src -y
-```
+   ```
    
 3. Create a colcon workspace:
    ```bash
@@ -39,3 +39,5 @@ With that, please create a workspace, copy this folder into the workspace, insta
    ```bash
    ros2 launch my_elite_robot_cell_control start_robot.launch.py use_fake_hardware:=true
    ```
+
+6. You can use [Elite Robots ROS2 tutorials](./tutorials/Elite Robots ROS2 tutorials.md) to get more useful informations.

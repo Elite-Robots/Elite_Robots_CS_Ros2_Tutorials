@@ -1,5 +1,3 @@
-[中文教程](./ELITE Robots ROS 教程.md)
-
 # ELITE Robots ROS2 tutorials
 
 These tutorials should help users to get their custom use cases running. The following content is based on the UR Robot ROS2 tutorials and MoveIt2 tutorials. Thank you to the developers for their contributions to the open-source world.
