@@ -1,0 +1,98 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://ros.org/wiki/xacro">
+  <xacro:include filename="$(find eli_cs_robot_description)/urdf/cs_macro.xacro"/>
+
+  <xacro:macro name="my_elite_robot_cell" params="
+    parent
+    *origin
+    cs_type
+    joint_limits_parameters_file
+    kinematics_parameters_file
+    physical_parameters_file
+    visual_parameters_file
+    ">
+
+    <joint name="table_base_joint" type="fixed">
+      <xacro:insert_block name="origin" />
+      <parent link="${parent}" />
+      <child link="table" />
+    </joint>
+
+    <link name="table">
+      <visual>
+        <geometry>
+          <mesh filename="package://my_elite_robot_cell_description/meshes/table.dae"/>
+        </geometry>
+        <origin rpy="0 0 0" xyz="0.75 0.5 -1"/>
+      </visual>
+      <collision>
+        <geometry>
+          <mesh filename="package://my_elite_robot_cell_description/meshes/table.dae"/>
+        </geometry>
+        <origin rpy="0 0 0" xyz="0.75 0.5 -1"/>
+      </collision>
+    </link>
+
+    <link name="monitor">
+      <visual>
+        <geometry>
+          <mesh filename="package://my_elite_robot_cell_description/meshes/monitor.dae"/>
+        </geometry>
+      </visual>
+      <collision>
+        <geometry>
+          <mesh filename="package://my_elite_robot_cell_description/meshes/monitor.dae"/>
+        </geometry>
+      </collision>
+    </link>
+    <joint name="base_to_monitor" type="fixed">
+      <parent link="table"/>
+      <child link="monitor"/>
+      <origin xyz="0.2 0.6 0"/>
+    </joint>
+
+    <material name="white">
+      <color rgba="1 1 1 1"/>
+    </material>
+
+    <link name="wall">
+      <visual>
+        <geometry>
+          <mesh filename="package://my_elite_robot_cell_description/meshes/wall.dae"/>
+        </geometry>
+      </visual>
+      <collision>
+        <geometry>
+          <box size="4.44 0.1 2.5"/>
+        </geometry>
+      </collision>
+    </link>
+    <joint name="base_to_wall" type="fixed">
+      <parent link="table"/>
+      <child link="wall"/>
+      <origin xyz="1.25 1.5 0.5"/>
+    </joint>
+
+    <link name="robot_mount"/>
+    <joint name="base_to_robot_mount" type="fixed">
+      <parent link="table"/>
+      <child link="robot_mount"/>
+      <origin xyz="1.0 0.5 0" rpy="0 0 0" />
+    </joint>
+
+    <!--This will create the specific robot-->
+    <xacro:cs_robot
+      name="${cs_type}"
+      tf_prefix="${cs_type}_"
+      parent="robot_mount"
+      joint_limits_parameters_file="${joint_limits_parameters_file}"
+      kinematics_parameters_file="${kinematics_parameters_file}"
+      physical_parameters_file="${physical_parameters_file}"
+      visual_parameters_file="${visual_parameters_file}"
+      generate_ros2_control_tag="false"
+    >
+      <origin xyz="0 0 0" rpy="0 0 0" />
+    </xacro:cs_robot>
+  </xacro:macro>
+
+</robot>

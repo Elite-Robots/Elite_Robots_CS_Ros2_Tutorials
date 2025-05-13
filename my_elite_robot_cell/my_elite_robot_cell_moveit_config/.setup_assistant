@@ -1,0 +1,10 @@
+moveit_setup_assistant_config:
+  urdf:
+    package: my_elite_robot_cell_description
+    relative_path: urdf/my_elite_robot_cell.urdf.xacro
+  srdf:
+    relative_path: config/my_elite_robot_cell.srdf
+  package_settings:
+    author_name: chenshichao
+    author_email: chenshichao@elibot.cn
+    generated_timestamp: 1746758146

@@ -1,0 +1,62 @@
+<?xml version="1.0"?>
+<robot name="my_elite_robot_cell" xmlns:xacro="http://ros.org/wiki/xacro">
+
+  <!--First, include the macro from our custom description-->
+  <xacro:include filename="$(find my_elite_robot_cell_description)/urdf/my_elite_robot_cell_macro.xacro"/>
+  <!--The eli_cs_robot_description package already provides a control tag for the ELITE arm, we can directly include-->
+  <xacro:include filename="$(find eli_cs_robot_description)/urdf/cs.ros2_control.xacro"/>
+
+  <!--We need to specify the arguments used for parametrizing our description-->
+  <!--Create a folder for wanted cs_type and copy those files from eli_cs_robot_description package in there; copied only cs63 files -->
+  <!--You could as well point to eli_cs_robot_description but this way you make sure you use the same files as start_robot.launch.py which searches in runtime_config_package for joint_limits.yaml, physical_parameters.yaml, visual_parameters.yaml and in description_package for default_kinematics.yaml (last one can be overwritten)-->
+  <xacro:arg name="cs_type" default="cs63"/>
+  <xacro:arg name="joint_limit_params" default="$(find my_elite_robot_cell_control)/config/$(arg cs_type)/joint_limits.yaml"/>
+  <xacro:arg name="kinematics_params" default="$(find my_elite_robot_cell_control)/config/$(arg cs_type)/default_kinematics.yaml"/>
+  <xacro:arg name="physical_params" default="$(find my_elite_robot_cell_control)/config/$(arg cs_type)/physical_parameters.yaml"/>
+  <xacro:arg name="visual_params" default="$(find my_elite_robot_cell_control)/config/$(arg cs_type)/visual_parameters.yaml"/>
+
+  <xacro:arg name="robot_ip" default="0.0.0.0"/>
+  <xacro:arg name="local_ip" default="0.0.0.0"/>
+  <xacro:arg name="headless_mode" default="false" />
+  <xacro:arg name="cs_script_filename" default="$(find eli_cs_robot_driver)/resources/external_control.script"/>
+  <xacro:arg name="cs_output_recipe_filename" default="$(find eli_cs_robot_driver)/resources/output_recipe.txt"/>
+  <xacro:arg name="cs_input_recipe_filename" default="$(find eli_cs_robot_driver)/resources/input_recipe.txt"/>
+  <xacro:arg name="use_fake_hardware" default="false" />
+  <xacro:arg name="fake_sensor_commands" default="false" />
+  <!--find hash_kinematics in kinematics_params-->
+  <xacro:property name="kinematics_params_file" value="$(arg kinematics_params)"/>
+
+
+  <link name="world" />
+
+  <!--Create the scene description including the robot-->
+  <xacro:my_elite_robot_cell
+    parent="world"
+    cs_type="$(arg cs_type)"
+    joint_limits_parameters_file="$(arg joint_limit_params)"
+    kinematics_parameters_file="$(arg kinematics_params)"
+    physical_parameters_file="$(arg physical_params)"
+    visual_parameters_file="$(arg visual_params)"
+  >
+    <origin xyz="0 0 1" rpy="0 0 0" />
+  </xacro:my_elite_robot_cell>
+
+
+  <!--Create the control tag for the ELITE robot-->
+  <xacro:cs_ros2_control
+    name="$(arg cs_type)"
+    tf_prefix="$(arg cs_type)_"
+    robot_ip="$(arg robot_ip)"
+    local_ip="$(arg local_ip)"
+    script_filename="$(arg cs_script_filename)"
+    output_recipe_filename="$(arg cs_output_recipe_filename)"
+    input_recipe_filename="$(arg cs_input_recipe_filename)"
+    use_fake_hardware="$(arg use_fake_hardware)"
+    fake_sensor_commands="$(arg fake_sensor_commands)"
+    headless_mode="$(arg headless_mode)"
+  />
+
+  <!--If you had more controlled devices in your description, e.g. a gripper, you can add another ros2_control tag here-->
+
+</robot>
+
